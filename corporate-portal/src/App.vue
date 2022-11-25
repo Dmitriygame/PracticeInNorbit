@@ -1,15 +1,16 @@
 <template>
-  <h1>Hi!</h1>
+  <div id="app">
+    <h1>Портал учета рабочего времени</h1>
+    <hr>
+    <p><router-link to="/">Домой</router-link></p>
+    <hr>
+
+    <router-view  />
+
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'App',
-  components: {
 
-  }
-}
-</script>
 
 <style>
 #app {
