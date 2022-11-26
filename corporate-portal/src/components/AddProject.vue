@@ -1,7 +1,8 @@
 <template>
-  <input type="text" v-model="name">
-  <button v-on:click="this.$emit('add-project', this.name),
-          this.name = '' "
+  <input type="text" v-model="key" placeholder="Код">
+  <input id="inputName" type="text" v-model="name"  placeholder="Имя проекта">
+  <button v-on:click="this.$emit('add-project', this.name, this.key),
+          this.key='', this.name = '' "
   >Добавить</button>
 </template>
 
@@ -9,6 +10,7 @@
 export default {
   data() {
     return {
+      key: "",
       name: ""
     }
   }
@@ -16,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-  input {
+  #inputName {
     width: 300px;
   }
 </style>

@@ -2,6 +2,7 @@
   <div>
     <h2>Проекты</h2>
     <hr>
+
     <AddProject
         @add-project="addProject"
     />
@@ -17,14 +18,9 @@
 import ProjectsList from "@/components/ProjectsList"
 import AddProject from "@/components/AddProject"
 export default {
-  //name: 'App',
   data() {
     return {
-      projects: [
-        {id: 1, name: "Проект №1", active: true},
-        {id: 2, name: "Проект №2", active: true},
-        {id: 3, name: "Проект №3", active: true},
-      ]
+      projects: JSON.parse(localStorage.getItem("projects")),
     }
   },
   components: {
@@ -32,16 +28,18 @@ export default {
   },
   methods: {
     removeProject(id) {
-      this.projects = this.projects.filter(p => p.id != id)
-      console.log("remove")
+      this.projects = this.projects.filter(p => p.id != id);
+      localStorage.setItem("projects", JSON.stringify(this.projects));
     },
-    addProject(name) {
+    addProject(name, key) {
       const newProject = {
         id: Date.now(),
+        key: key,
         name: name,
         active: true
       }
-      this.projects.push(newProject)
+      this.projects.push(newProject);
+      localStorage.setItem("projects", JSON.stringify(this.projects));
     }
   }
 }

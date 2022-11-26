@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Портал учета рабочего времени</h1>
+    <h2>{{this.myVar}}</h2>
     <hr>
     <p><router-link to="/">Домой</router-link></p>
     <hr>
@@ -10,7 +11,27 @@
   </div>
 </template>
 
+<script>
+//localStorage.clear();
+export default {
+  data() {
+    return {
+      myVar: localStorage.length
+    }
+  }
+}
+if (localStorage.length == 0) {
+  let array = [
+    {id: 1, key: "CRM", name: "Проект №1", active: true},
+    {id: 2, key: "CRM", name: "Проект №2", active: true},
+    {id: 3, key: "DRM", name: "Проект №3", active: true},
+  ]
+  localStorage.setItem("projects", JSON.stringify(array));
+  localStorage.setItem("tasks", "");
+  localStorage.setItem("postings", "");
+}
 
+</script>
 
 <style>
 #app {
