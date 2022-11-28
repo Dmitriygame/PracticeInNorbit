@@ -37,13 +37,26 @@ export default {
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
     editProject(name, key, active) {
-      const newProject = {
-        id: Date.now(),
-        key: key,
-        name: name,
-        active: active
+      if(this.idSelectedItem == 0) {
+        const newProject = {
+          id: Date.now(),
+          key: key,
+          name: name,
+          active: active
+        }
+        this.projects.push(newProject);
       }
-      this.projects.push(newProject);
+      else {
+        for (let currentProject of this.projects) {
+          if (this.idSelectedItem == currentProject.id) {
+            currentProject.key = key;
+            currentProject.name = name;
+            currentProject.active = active;
+            break;
+          }
+        }
+        this.idSelectedItem = 0;
+      }
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
     selectProjectId(id) {
