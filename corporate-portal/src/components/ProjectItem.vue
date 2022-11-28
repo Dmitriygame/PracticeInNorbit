@@ -10,7 +10,7 @@
         {{project.name}}
       </span>
       <span>
-        <button v-on:click="$emit('select-project-id', project.id)">&#10000;</button>
+        <button v-on:click="$emit('select-project', project)">&#10000;</button>
         <button v-on:click="$emit('remove-project', project.id)">x</button>
       </span>
     </li>

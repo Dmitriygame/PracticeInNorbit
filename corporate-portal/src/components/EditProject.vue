@@ -1,30 +1,28 @@
 <template>
   <label class="checkbox style-g">
-    <input type="checkbox" v-model="active">
+    <input type="checkbox" v-model="this.selectedProject.active">
     <div class="checkbox__checkmark"></div>
     <div class="checkbox__body">Активный: </div>
   </label>
-  <input id="inputKey" type="text" v-model="key" placeholder="Код">
-  <input id="inputName" type="text" v-model="name"  placeholder="Имя проекта">
-  <button v-on:click="this.$emit('edit-project', this.name, this.key, this.active,
-          this.key='', this.name = '' )"
-  >{{this.button_text}}</button>
+  <input id="inputKey" type="text" v-model="this.selectedProject.key" placeholder="Код">
+  <input id="inputName" type="text" v-model="this.selectedProject.name"  placeholder="Имя проекта">
+  <button v-on:click="this.$emit('edit-project', this.selectedProject)">{{this.button_text}}</button>
 </template>
 
 <script>
 export default {
-  props: ["idSelectedItem"],
+  props: ["selectedProject"],
   data() {
     return {
-      key: "",
-      name: "",
-      active: true,
+      key: this.selectedProject.key,
+      name: this.selectedProject.name,
+      active: this.selectedProject.active,
       button_text: "Добавить"
     }
   },
   methods: {
     setButtonText() {
-      if (this.idSelectedItem == 0) {
+      if (this.selectedProject.id == 0) {
         this.button_text = "Добавить"
       } else {
         this.button_text = "Изменить"

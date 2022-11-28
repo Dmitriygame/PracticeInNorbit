@@ -6,7 +6,7 @@
           v-bind:project="project"
           v-bind:idSelectedItem="idSelectedItem"
           v-on:remove-project="removeProject"
-          v-on:select-project-id="selectProjectId"
+          v-on:select-project="selectProject"
       />
     </ul>
   </div>
@@ -23,8 +23,8 @@ export default {
     removeProject(id) {
       this.$emit("remove-project", id);
     },
-    selectProjectId(id) {
-      this.$emit("select-project-id", id);
+    selectProject(project) {
+      this.$emit("select-project", project);
     }
   }
 }

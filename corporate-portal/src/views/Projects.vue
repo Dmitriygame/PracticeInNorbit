@@ -3,17 +3,17 @@
     <h2>Проекты</h2>
     <hr>
     <EditProject
-        @edit-project="editProject"
-        v-bind:idSelectedItem="this.idSelectedItem"
-    />
-    <!--  -->
+        v-bind:selectedProject="this.selectedProject"
 
+        @edit-project="editProject"
+    />
     <hr>
     <ProjectsList
         v-bind:projects="projects"
-        v-bind:idSelectedItem="idSelectedItem"
+        v-bind:idSelectedItem="this.selectedProject.id"
+
         @remove-project="removeProject"
-        @select-project-id="selectProjectId"
+        @select-project="selectProject"
     />
   </div>
 </template>
@@ -25,7 +25,12 @@ export default {
   data() {
     return {
       projects: JSON.parse(localStorage.getItem("projects")),
-      idSelectedItem: 0
+      selectedProject: {
+        id: 0,
+        key: "",
+        name: "",
+        active: true
+      }
     }
   },
   components: {
@@ -36,31 +41,40 @@ export default {
       this.projects = this.projects.filter(p => p.id != id);
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
-    editProject(name, key, active) {
-      if(this.idSelectedItem == 0) {
+    editProject(changedProject) {
+      //add
+      if(changedProject.id == 0) {
         const newProject = {
           id: Date.now(),
-          key: key,
-          name: name,
-          active: active
+          key: changedProject.key,
+          name: changedProject.name,
+          active: changedProject.active
         }
         this.projects.push(newProject);
       }
+      //edit
       else {
         for (let currentProject of this.projects) {
-          if (this.idSelectedItem == currentProject.id) {
-            currentProject.key = key;
-            currentProject.name = name;
-            currentProject.active = active;
+          if (changedProject.id == currentProject.id) {
+            currentProject.key = changedProject.key;
+            currentProject.name = changedProject.name;
+            currentProject.active = changedProject.active;
             break;
           }
         }
-        this.idSelectedItem = 0;
       }
+      this.selectedProject.id = 0;
+      this.selectedProject.key = "";
+      this.selectedProject.name = "";
+
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
-    selectProjectId(id) {
-      this.idSelectedItem = id;
+
+    selectProject(project) {
+      this.selectedProject.id = project.id;
+      this.selectedProject.key = project.key;
+      this.selectedProject.name = project.name;
+      this.selectedProject.active = project.active;
     }
   }
 }
