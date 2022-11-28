@@ -4,7 +4,9 @@
       <ProjectItem
           v-for="project of projects"
           v-bind:project="project"
+          v-bind:idSelectedItem="idSelectedItem"
           v-on:remove-project="removeProject"
+          v-on:select-project-id="selectProjectId"
       />
     </ul>
   </div>
@@ -13,13 +15,16 @@
 <script>
 import ProjectItem from "@/components/ProjectItem";
 export default {
-  props: ["projects"],
+  props: ["projects", "idSelectedItem"],
   components: {
     ProjectItem
   },
   methods: {
     removeProject(id) {
-      this.$emit("remove-project", id)
+      this.$emit("remove-project", id);
+    },
+    selectProjectId(id) {
+      this.$emit("select-project-id", id);
     }
   }
 }

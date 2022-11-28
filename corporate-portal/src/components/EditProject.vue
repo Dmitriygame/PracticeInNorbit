@@ -1,56 +1,54 @@
 <template>
-    <li v-bind:class="{selected: project.id == idSelectedItem}">
-      <span v-bind:class="{done: !project.active}">
-        <label class="checkbox style-g">
-          <input type="checkbox" v-bind:checked="project.active" disabled>
-          <div class="checkbox__checkmark"></div>
-          <div class="checkbox__body">Активный: </div>
-        </label>
-        <strong>{{project.key}}</strong>
-        {{project.name}}
-      </span>
-      <span>
-        <button v-on:click="$emit('select-project-id', project.id)">&#10000;</button>
-        <button v-on:click="$emit('remove-project', project.id)">x</button>
-      </span>
-    </li>
+  <label class="checkbox style-g">
+    <input type="checkbox" v-model="active">
+    <div class="checkbox__checkmark"></div>
+    <div class="checkbox__body">Активный: </div>
+  </label>
+  <input id="inputKey" type="text" v-model="key" placeholder="Код">
+  <input id="inputName" type="text" v-model="name"  placeholder="Имя проекта">
+  <button v-on:click="this.$emit('edit-project', this.name, this.key, this.active,
+          this.key='', this.name = '' )"
+  >{{this.button_text}}</button>
 </template>
 
 <script>
 export default {
-  props: ["project", "idSelectedItem"]
+  props: ["idSelectedItem"],
+  data() {
+    return {
+      key: "",
+      name: "",
+      active: true,
+      button_text: "Добавить"
+    }
+  },
+  methods: {
+    setButtonText() {
+      if (this.idSelectedItem == 0) {
+        this.button_text = "Добавить"
+      } else {
+        this.button_text = "Изменить"
+      }
+    }
+  },
+  beforeUpdate() {
+    this.setButtonText()
+  }
 }
+
 </script>
 
 <style scoped>
-li {
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  padding: .5rem 2rem;
-  margin-bottom: 1rem;
+
+#inputKey {
+  width: 100px;
+  margin-left: 2rem;
 }
 
-.selected {
-  background-color: aqua;
-}
-
-input {
+#inputName {
+  width: 300px;
+  margin-left: 1rem;
   margin-right: 1rem;
-}
-
-span {
-  vertical-align: center;
-}
-
-button {
-  margin-right: 3px;
-  height: 25px;
-  width: 30px;
-}
-
-.done {
-  text-decoration: line-through;
 }
 
 .checkbox.style-g {
@@ -112,10 +110,6 @@ button {
   line-height: 1.4;
   font-size: 16px;
   transition: font-weight 0.25s ease;
-}
-
-strong {
-  margin-left: 2rem;
 }
 
 </style>
