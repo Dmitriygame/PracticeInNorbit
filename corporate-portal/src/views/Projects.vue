@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import ProjectsList from "@/components/ProjectsList"
-import EditProject from "@/components/EditProject"
+import ProjectsList from "@/components/Projects/ProjectsList"
+import EditProject from "@/components/Projects/EditProject"
 export default {
   data() {
     return {
@@ -28,7 +28,7 @@ export default {
       selectedProject: {
         id: 0,
         key: "",
-        name: "",
+        name: null,
         active: true
       }
     }
@@ -50,6 +50,9 @@ export default {
           name: changedProject.name,
           active: changedProject.active
         }
+        if (newProject.name == "" || newProject.name == null) {
+          newProject.name = "Новый проект";
+        }
         this.projects.push(newProject);
       }
       //edit
@@ -57,7 +60,11 @@ export default {
         for (let currentProject of this.projects) {
           if (changedProject.id == currentProject.id) {
             currentProject.key = changedProject.key;
-            currentProject.name = changedProject.name;
+            if (changedProject.name == "" || changedProject.name == null) {
+              currentProject.name = "Пустой проект";
+            } else {
+              currentProject.name = changedProject.name;
+            }
             currentProject.active = changedProject.active;
             break;
           }
@@ -65,7 +72,7 @@ export default {
       }
       this.selectedProject.id = 0;
       this.selectedProject.key = "";
-      this.selectedProject.name = "";
+      this.selectedProject.name = null;
 
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },

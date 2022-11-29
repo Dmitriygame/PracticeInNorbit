@@ -9,7 +9,7 @@
 </template>
 
 <script>
-//localStorage.clear();
+//localStorage.clear()
 
 if (localStorage.length == 0) {
   let array = [
@@ -18,7 +18,14 @@ if (localStorage.length == 0) {
     {id: 3, key: "DRM", name: "Проект №3", active: true},
   ]
   localStorage.setItem("projects", JSON.stringify(array));
-  localStorage.setItem("tasks", "");
+
+      array = [
+    {id: 1, key_project: 2, name: "Задача №1", active: true},
+    {id: 2, key_project: 2, name: "Задача №2", active: false},
+    {id: 3, key_project: 3, name: "Задача №3", active: true},
+  ]
+  localStorage.setItem("tasks", JSON.stringify(array));
+
   localStorage.setItem("postings", "");
 }
 

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ProjectItem from "@/components/ProjectItem";
+import ProjectItem from "@/components/Projects/ProjectItem";
 export default {
   props: ["projects", "idSelectedItem"],
   components: {
