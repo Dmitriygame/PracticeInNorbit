@@ -53,10 +53,6 @@ input {
   margin-right: 1rem;
 }
 
-span {
-  vertical-align: center;
-}
-
 #link {
   margin-left: 2rem;
 }

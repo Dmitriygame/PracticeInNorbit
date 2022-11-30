@@ -13,6 +13,10 @@ const routes = [
     {
         path: "/tasks",
         component: () => import("./views/Tasks")
+    },
+    {
+        path: "/postings",
+        component: () => import("./views/Postings")
     }
 ];
 

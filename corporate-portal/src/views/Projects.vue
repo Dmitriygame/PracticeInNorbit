@@ -26,7 +26,7 @@ export default {
     return {
       projects: JSON.parse(localStorage.getItem("projects")),
       selectedProject: {
-        id: 0,
+        id: null,
         key: "",
         name: null,
         active: true
@@ -43,7 +43,7 @@ export default {
     },
     editProject(changedProject) {
       //add
-      if(changedProject.id == 0) {
+      if(changedProject.id == null) {
         const newProject = {
           id: Date.now(),
           key: changedProject.key,
@@ -70,7 +70,7 @@ export default {
           }
         }
       }
-      this.selectedProject.id = 0;
+      this.selectedProject.id = null;
       this.selectedProject.key = "";
       this.selectedProject.name = null;
 

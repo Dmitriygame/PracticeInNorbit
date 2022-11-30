@@ -26,7 +26,12 @@ if (localStorage.length == 0) {
   ]
   localStorage.setItem("tasks", JSON.stringify(array));
 
-  localStorage.setItem("postings", "");
+      array = [
+    {id: 1, date: "2022-12-01", hours: 8, id_key_task: 1, name: "Проводка №1"},
+    {id: 2, date: "2022-12-02", hours: 5, id_key_task: 3, name: "Проводка №2"},
+    {id: 3, date: "2022-12-02", hours: 12, id_key_task: 3, name: "Проводка №3"},
+  ]
+  localStorage.setItem("postings", JSON.stringify(array));
 }
 
 </script>

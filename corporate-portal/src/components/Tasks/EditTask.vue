@@ -7,7 +7,7 @@
   <select id="inputKey" v-model="this.selectedTask.key_project">
     <option v-for="project of this.availableProjects" v-bind:value="project.id">{{project.name}}</option>
   </select>
-  <input id="inputName" type="text" v-model="this.selectedTask.name"  placeholder="Имя задачи">
+  <input id="inputName" type="text" v-model="this.selectedTask.name"  placeholder="Название">
   <button v-on:click="this.$emit('edit-task', this.selectedTask)">{{this.button_text}}</button>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     setButtonText() {
-      if (this.selectedTask.id == 0) {
+      if (this.selectedTask.id == null) {
         this.button_text = "Добавить"
       } else {
         this.button_text = "Изменить"

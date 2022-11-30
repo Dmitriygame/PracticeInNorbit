@@ -26,7 +26,7 @@ export default {
     return {
       tasks: JSON.parse(localStorage.getItem("tasks")),
       selectedTask: {
-        id: 0,
+        id: null,
         key_project: null,
         name: null,
         active: true
@@ -43,7 +43,7 @@ export default {
     },
     editTask(changedTask) {
       //add
-      if(changedTask.id == 0) {
+      if(changedTask.id == null) {
         const newTask = {
           id: Date.now(),
           key_project: changedTask.key_project,
@@ -71,7 +71,7 @@ export default {
           }
         }
       }
-      this.selectedTask.id = 0;
+      this.selectedTask.id = null;
       this.selectedTask.key_project = null;
       this.selectedTask.name = null;
 

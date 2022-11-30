@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     setButtonText() {
-      if (this.selectedProject.id == 0) {
+      if (this.selectedProject.id == null) {
         this.button_text = "Добавить"
       } else {
         this.button_text = "Изменить"
