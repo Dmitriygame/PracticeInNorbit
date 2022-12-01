@@ -1,6 +1,6 @@
 <template>
     <li v-bind:class="{selected: task.id == idSelectedItem}">
-      <span v-bind:class="{done: !task.active}">
+      <span class="size" v-bind:class="{done: !task.active}">
         <label class="checkbox style-g">
           <input type="checkbox" v-bind:checked="task.active" disabled>
           <div class="checkbox__checkmark"></div>
@@ -9,7 +9,7 @@
         <router-link id="link" to="/projects">{{this.projectName}}</router-link>
         {{task.name}}
       </span>
-      <span>
+      <span class="buttons">
         <button v-on:click="$emit('select-task', task)">&#10000;</button>
         <button v-on:click="$emit('remove-task', task.id)">x</button>
       </span>
@@ -43,6 +43,17 @@ li {
   justify-content: space-between;
   padding: .5rem 2rem;
   margin-bottom: 1rem;
+}
+
+.buttons {
+  white-space: nowrap;
+  margin-left: 3px;
+}
+
+.size {
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  position: relative; /* Относительное позиционирование */
 }
 
 .selected {

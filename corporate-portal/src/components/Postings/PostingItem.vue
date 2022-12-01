@@ -1,12 +1,15 @@
 <template>
-    <li v-bind:class="{selected: posting.id == idSelectedItem}">
-      <span>
+    <li v-bind:class="{ selected: posting.id == idSelectedItem,
+                        not_enough_time: this.posting.hours < 8,
+                        normal_time: this.posting.hours == 8,
+                        excess_time: this.posting.hours > 8}">
+      <span class="size">
         {{posting.date}}
         <b id="posting_hours">{{posting.hours}}</b>
         <router-link id="link" to="/tasks">{{this.taskName}}</router-link>
         {{posting.name}}
       </span>
-      <span>
+      <span class="buttons">
         <button v-on:click="$emit('select-posting', posting)">&#10000;</button>
         <button v-on:click="$emit('remove-posting', posting.id)">x</button>
       </span>
@@ -29,6 +32,11 @@ export default {
           return task.name;
         }
       }
+    },
+    postingColor: function () {
+      if (this.posting.id == this.idSelectedItem) {
+        return "aqua";
+      }
     }
   },
 }
@@ -43,6 +51,18 @@ li {
   margin-bottom: 1rem;
 }
 
+.not_enough_time {
+  background-color: yellow;
+}
+
+.normal_time {
+  background-color: green;
+}
+
+.excess_time {
+  background-color: red;
+}
+
 .selected {
   background-color: aqua;
 }
@@ -55,6 +75,17 @@ button {
   margin-right: 3px;
   height: 25px;
   width: 30px;
+}
+
+.buttons {
+  white-space: nowrap;
+  margin-left: 3px;
+}
+
+.size {
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  position: relative; /* Относительное позиционирование */
 }
 
 </style>

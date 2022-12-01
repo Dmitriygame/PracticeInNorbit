@@ -4,6 +4,7 @@
     <hr>
     <EditPosting
         v-bind:selectedPosting="this.selectedPosting"
+        v-bind:tasks="this.tasks"
 
         @edit-posting="editPosting"
     />
@@ -25,11 +26,12 @@ export default {
   data() {
     return {
       postings: JSON.parse(localStorage.getItem("postings")),
+      tasks: JSON.parse(localStorage.getItem("tasks")),
       selectedPosting: {
         id: null,
         date: null,
         hours: null,
-        id_key_task: null,
+        id_key_task: null,    //beforeCreated  firstTask
         name: null
       }
     }
@@ -37,6 +39,11 @@ export default {
   components: {
     PostingsList, EditPosting
   },
+
+  beforeMount() {
+    this.selectedPosting.id_key_task = this.firstTaskId();
+  },
+
   methods: {
     removePosting(id) {
       this.postings = this.postings.filter(p => p.id != id);
@@ -58,7 +65,21 @@ export default {
         }
         if (newPosting.hours > 24) {
           newPosting.hours = 24;
+        } else if (newPosting.hours <= 0) {
+          newPosting.hours = 0;
         }
+
+        let alreadyWorkedOut = 0;
+        for (let posting of this.postings) {
+          if (newPosting.date == posting.date) {
+            alreadyWorkedOut = parseInt(alreadyWorkedOut) + parseInt(posting.hours);
+          }
+        }
+
+        if (parseInt(alreadyWorkedOut) + parseInt(newPosting.hours) > 24) {
+          newPosting.hours = 24 - parseInt(alreadyWorkedOut);
+        }
+
         this.postings.push(newPosting);
       }
 
@@ -80,6 +101,19 @@ export default {
 
             if (currentPosting.hours > 24) {
               currentPosting.hours = 24;
+            } else if (currentPosting.hours <= 0) {
+              currentPosting.hours = 0;
+            }
+
+            let alreadyWorkedOut = 0;
+            for (let posting of this.postings) {
+              if (currentPosting.date == posting.date && currentPosting.id != posting.id) {
+                alreadyWorkedOut = parseInt(alreadyWorkedOut) + parseInt(posting.hours);
+              }
+            }
+
+            if (parseInt(alreadyWorkedOut) + parseInt(currentPosting.hours) > 24) {
+              currentPosting.hours = 24 - alreadyWorkedOut;
             }
 
             break;
@@ -90,11 +124,20 @@ export default {
       this.selectedPosting.id = null;
       this.selectedPosting.date = null
       this.selectedPosting.hours = null;
-      this.selectedPosting.id_key_task = null;
+      this.selectedPosting.id_key_task = this.firstTaskId();
       this.selectedPosting.name = null;
 
       localStorage.setItem("postings", JSON.stringify(this.postings));
     },
+
+    firstTaskId() {
+      for (let task of this.tasks) {
+        if (task.active == true) {
+          return task.id;
+        }
+      }
+    },
+
 
     selectPosting(posting) {
       this.selectedPosting.id = posting.id;

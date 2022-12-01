@@ -9,7 +9,7 @@
 </template>
 
 <script>
-//localStorage.clear()
+localStorage.clear()
 
 if (localStorage.length == 0) {
   let array = [
