@@ -4,12 +4,12 @@
     <hr>
     <p><router-link to="/">Домой</router-link></p>
     <hr>
-    <router-view  />
+    <router-view/>
   </div>
 </template>
 
 <script>
-localStorage.clear()
+//localStorage.clear()
 
 if (localStorage.length == 0) {
   let array = [

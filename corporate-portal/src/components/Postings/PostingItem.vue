@@ -56,11 +56,12 @@ li {
 }
 
 .normal_time {
-  background-color: green;
+
+  background-color: chartreuse;
 }
 
 .excess_time {
-  background-color: red;
+  background-color: #fc143c;
 }
 
 .selected {
