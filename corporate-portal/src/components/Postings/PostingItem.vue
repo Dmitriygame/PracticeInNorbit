@@ -6,7 +6,7 @@
       <span class="size">
         {{posting.date}}
         <b id="posting_hours">{{posting.hours}}</b>
-        <router-link id="link" to="/tasks">{{this.taskName}}</router-link>
+        <strong><router-link id="link" to="/tasks">{{this.taskName}}</router-link></strong>
         {{posting.name}}
       </span>
       <span class="buttons">
@@ -20,22 +20,14 @@
 
 export default {
   props: ["posting", "idSelectedItem"],
-  data() {
-    return {
-      tasks: JSON.parse(localStorage.getItem("tasks"))
-    }
-  },
+
   computed: {
     taskName: function () {
-      for (let task of this.tasks) {
+      let tasks = JSON.parse(localStorage.getItem("tasks"))
+      for (let task of tasks) {
         if (task.id === this.posting.id_key_task) {
           return task.name;
         }
-      }
-    },
-    postingColor: function () {
-      if (this.posting.id == this.idSelectedItem) {
-        return "aqua";
       }
     }
   },
@@ -52,23 +44,24 @@ li {
 }
 
 .not_enough_time {
+  color: black;
   background-color: yellow;
 }
 
 .normal_time {
-
-  background-color: chartreuse;
+  color: black;
+  background-color: green;
 }
 
 .excess_time {
-  background-color: #fc143c;
+  background-color: darkred;
 }
 
 .selected {
   background-color: aqua;
 }
 
-#link, #posting_hours {
+#posting_hours {
   margin-left: 1rem;
 }
 

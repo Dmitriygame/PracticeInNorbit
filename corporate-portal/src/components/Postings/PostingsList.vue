@@ -62,7 +62,7 @@ export default {
 <style scoped>
   ul {
     list-style: none;
-    margin: 0;
+    margin: 8px;
     padding: 0;
   }
 </style>
