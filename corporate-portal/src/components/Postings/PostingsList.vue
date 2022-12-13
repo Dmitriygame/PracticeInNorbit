@@ -3,10 +3,12 @@
     <ul>
       <PostingItem
           v-for="posting of this.postingFiltered"
-          v-bind:posting="posting"
-          v-bind:idSelectedItem="idSelectedItem"
-          v-on:remove-posting="removePosting"
-          v-on:select-posting="selectPosting"
+          :posting="posting"
+          :tasks="this.tasks"
+          :idSelectedItem="idSelectedItem"
+
+          @remove-posting="removePosting"
+          @select-posting="selectPosting"
       />
     </ul>
   </div>
@@ -15,7 +17,7 @@
 <script>
 import PostingItem from "@/components/Postings/PostingItem";
 export default {
-  props: ["postings", "idSelectedItem", "filterDate"],
+  props: ["postings", "tasks", "idSelectedItem", "filterDate"],
   components: {
     PostingItem
   },

@@ -5,7 +5,7 @@
     <div class="checkbox__body">Активный: </div>
   </label>
   <select id="inputKey" v-model="this.selectedTask.key_project">
-    <option v-for="project of this.availableProjects" v-bind:value="project.id">{{project.name}}</option>
+    <option v-for="project of this.projects" v-bind:value="project.id">{{project.name}}</option>
   </select>
   <input id="inputName" type="text" v-model="this.selectedTask.name"  placeholder="Название">
   <button v-on:click="this.$emit('edit-task', this.selectedTask)">{{this.button_text}}</button>
@@ -13,11 +13,9 @@
 
 <script>
 export default {
-  props: ["selectedTask"],
+  props: ["selectedTask", "projects"],
   data() {
     return {
-      availableProjects: JSON.parse(localStorage.getItem("projects")),
-
       button_text: "Добавить"
     }
   },

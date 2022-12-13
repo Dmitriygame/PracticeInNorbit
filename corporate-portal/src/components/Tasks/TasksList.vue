@@ -3,10 +3,12 @@
     <ul>
       <TaskItem
           v-for="task of tasks"
-          v-bind:task="task"
-          v-bind:idSelectedItem="idSelectedItem"
-          v-on:remove-task="removeTask"
-          v-on:select-task="selectTask"
+          :task="task"
+          :projects="projects"
+          :idSelectedItem="idSelectedItem"
+
+          @remove-task="removeTask"
+          @select-task="selectTask"
       />
     </ul>
   </div>
@@ -15,7 +17,7 @@
 <script>
 import TaskItem from "@/components/Tasks/TaskItem";
 export default {
-  props: ["tasks", "idSelectedItem"],
+  props: ["tasks", "projects", "idSelectedItem"],
   components: {
     TaskItem
   },

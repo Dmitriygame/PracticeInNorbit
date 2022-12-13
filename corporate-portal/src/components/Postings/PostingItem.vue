@@ -19,12 +19,11 @@
 <script>
 
 export default {
-  props: ["posting", "idSelectedItem"],
+  props: ["posting", "tasks", "idSelectedItem"],
 
   computed: {
     taskName: function () {
-      let tasks = JSON.parse(localStorage.getItem("tasks"))
-      for (let task of tasks) {
+      for (let task of this.tasks) {
         if (task.id === this.posting.id_key_task) {
           return task.name;
         }

@@ -10,20 +10,16 @@
         {{task.name}}
       </span>
       <span class="buttons">
-        <button v-on:click="$emit('select-task', task)">&#10000;</button>
-        <button v-on:click="$emit('remove-task', task.id)">x</button>
+        <button @click="$emit('select-task', task)">&#10000;</button>
+        <button @click="$emit('remove-task', task.id)">x</button>
       </span>
     </li>
 </template>
 
 <script>
 export default {
-  props: ["task", "idSelectedItem"],
-  data() {
-    return {
-      projects: JSON.parse(localStorage.getItem("projects"))
-    }
-  },
+  props: ["task", "projects", "idSelectedItem"],
+
   computed: {
     projectName: function () {
       for (let project of this.projects) {

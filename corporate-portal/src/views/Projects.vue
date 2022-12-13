@@ -3,14 +3,14 @@
     <h2>Проекты</h2>
     <hr>
     <EditProject
-        v-bind:selectedProject="this.selectedProject"
+        :selectedProject="this.selectedProject"
 
         @edit-project="editProject"
     />
     <hr>
     <ProjectsList
-        v-bind:projects="projects"
-        v-bind:idSelectedItem="this.selectedProject.id"
+        :projects="projects"
+        :idSelectedItem="this.selectedProject.id"
 
         @remove-project="removeProject"
         @select-project="selectProject"

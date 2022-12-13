@@ -3,14 +3,16 @@
     <h2>Задачи</h2>
     <hr>
     <EditTask
-        v-bind:selectedTask="this.selectedTask"
+        :selectedTask="this.selectedTask"
+        :projects="this.projects"
 
         @edit-task="editTask"
     />
     <hr>
     <TasksList
-        v-bind:tasks="tasks"
-        v-bind:idSelectedItem="this.selectedTask.id"
+        :tasks="tasks"
+        :projects="projects"
+        :idSelectedItem="this.selectedTask.id"
 
         @remove-task="removeTask"
         @select-task="selectTask"
@@ -25,6 +27,7 @@ export default {
   data() {
     return {
       tasks: JSON.parse(localStorage.getItem("tasks")),
+      projects: JSON.parse(localStorage.getItem("projects")),
       selectedTask: {
         id: null,
         key_project: null,

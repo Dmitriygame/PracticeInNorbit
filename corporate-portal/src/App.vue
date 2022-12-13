@@ -75,7 +75,6 @@ body {
 
 .home {
   background-color: #4CAF50;
-  color: white;
 }
 
 #link {

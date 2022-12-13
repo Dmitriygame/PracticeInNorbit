@@ -15,6 +15,7 @@
     <hr>
     <PostingsList
         v-bind:postings="postings"
+        v-bind:tasks="this.tasks"
         v-bind:idSelectedItem="this.selectedPosting.id"
         v-bind:filterDate="this.filterDate"
 

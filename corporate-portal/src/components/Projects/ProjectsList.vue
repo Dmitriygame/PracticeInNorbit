@@ -3,10 +3,11 @@
     <ul>
       <ProjectItem
           v-for="project of projects"
-          v-bind:project="project"
-          v-bind:idSelectedItem="idSelectedItem"
-          v-on:remove-project="removeProject"
-          v-on:select-project="selectProject"
+          :project="project"
+          :idSelectedItem="idSelectedItem"
+
+          @remove-project="removeProject"
+          @select-project="selectProject"
       />
     </ul>
   </div>
