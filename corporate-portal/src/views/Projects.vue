@@ -21,10 +21,15 @@
 <script>
 import ProjectsList from "@/components/Projects/ProjectsList"
 import EditProject from "@/components/Projects/EditProject"
+
+import { db } from "@/main"
+import { collection, doc, getDocs, setDoc, deleteDoc } from 'firebase/firestore'
+
 export default {
   data() {
     return {
-      projects: JSON.parse(localStorage.getItem("projects")),
+      projects: [],
+
       selectedProject: {
         id: null,
         key: "",
@@ -36,45 +41,64 @@ export default {
   components: {
     ProjectsList, EditProject
   },
+
+  beforeMount() {
+    this.getProjects();
+  },
+
   methods: {
-    removeProject(id) {
-      this.projects = this.projects.filter(p => p.id != id);
-      localStorage.setItem("projects", JSON.stringify(this.projects));
+    async getProjects() {
+      this.projects = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "projects"));
+        querySnapshot.forEach((doc) => {
+          let project = doc.data();
+          project.id = doc.id;
+          this.projects.push(project);
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
+      }
     },
-    editProject(changedProject) {
-      //add
-      if(changedProject.id == null) {
-        const newProject = {
-          id: Date.now(),
+
+    async removeProject(id) {
+      this.projects = this.projects.filter(p => p.id != id);
+      try {
+        await deleteDoc(doc(db, "projects", id));
+      }
+      catch (e) {
+        alert(`Возникла ошибка на стороне сервера!\n${e}`);
+      }
+    },
+
+    async editProject(changedProject) {
+
+      if (changedProject.name == "" || changedProject.name == null) {
+        changedProject.name = "Пустой проект";
+      }
+
+      if (changedProject.id == null) {
+        changedProject.id = Date.now();
+      }
+
+      try {
+        await setDoc(doc(db, "projects", String(changedProject.id) ), {
           key: changedProject.key,
           name: changedProject.name,
           active: changedProject.active
-        }
-        if (newProject.name == "" || newProject.name == null) {
-          newProject.name = "Новый проект";
-        }
-        this.projects.push(newProject);
+        });
       }
-      //edit
-      else {
-        for (let currentProject of this.projects) {
-          if (changedProject.id == currentProject.id) {
-            currentProject.key = changedProject.key;
-            if (changedProject.name == "" || changedProject.name == null) {
-              currentProject.name = "Пустой проект";
-            } else {
-              currentProject.name = changedProject.name;
-            }
-            currentProject.active = changedProject.active;
-            break;
-          }
-        }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
       }
+
+      this.getProjects();
+
       this.selectedProject.id = null;
       this.selectedProject.key = "";
       this.selectedProject.name = null;
 
-      localStorage.setItem("projects", JSON.stringify(this.projects));
     },
 
     selectProject(project) {
@@ -82,7 +106,8 @@ export default {
       this.selectedProject.key = project.key;
       this.selectedProject.name = project.name;
       this.selectedProject.active = project.active;
-    }
+    },
   }
 }
+
 </script>

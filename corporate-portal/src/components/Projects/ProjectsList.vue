@@ -27,7 +27,7 @@ export default {
     selectProject(project) {
       this.$emit("select-project", project);
     }
-  }
+  },
 }
 </script>
 

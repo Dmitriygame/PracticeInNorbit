@@ -6,7 +6,7 @@
   </label>
   <input id="inputKey" type="text" v-model="this.selectedProject.key" placeholder="Код">
   <input id="inputName" type="text" v-model="this.selectedProject.name"  placeholder="Имя проекта">
-  <button v-on:click="this.$emit('edit-project', this.selectedProject)">{{this.button_text}}</button>
+  <button @click="this.$emit('edit-project', this.selectedProject)">{{this.button_text}}</button>
 </template>
 
 <script>

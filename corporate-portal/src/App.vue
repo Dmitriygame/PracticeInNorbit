@@ -11,11 +11,11 @@
 </template>
 
 <script>
-//localStorage.clear()
+localStorage.clear()
 
 if (localStorage.length == 0) {
   let array = [
-    {id: 1, key: "CRM", name: "Проект №1", active: true},
+    {id: 1, key: "CRMM", name: "Проект №1", active: true},
     {id: 2, key: "CRM", name: "Проект №2", active: false},
     {id: 3, key: "DRM", name: "Проект №3", active: true},
   ]
