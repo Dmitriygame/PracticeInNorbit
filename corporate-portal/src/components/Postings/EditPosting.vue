@@ -5,7 +5,7 @@
     <option v-for="task of this.availableTasks" v-bind:value="task.id">{{task.name}}</option>
   </select>
   <input id="inputName" type="text" v-model="this.selectedPosting.name"  placeholder="Описание">
-  <button v-on:click="this.$emit('edit-posting', this.selectedPosting)">{{this.button_text}}</button>
+  <button @click="this.$emit('edit-posting', this.selectedPosting)">{{this.button_text}}</button>
 </template>
 
 <script>

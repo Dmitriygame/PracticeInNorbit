@@ -1,5 +1,5 @@
 <template>
-    <li v-bind:class="{ selected: posting.id == idSelectedItem,
+    <li v-bind:class="{ selected: this.posting.id == this.idSelectedItem,
                         not_enough_time: this.posting.hours < 8,
                         normal_time: this.posting.hours == 8,
                         excess_time: this.posting.hours > 8}">
@@ -10,8 +10,8 @@
         {{posting.name}}
       </span>
       <span class="buttons">
-        <button v-on:click="$emit('select-posting', posting)">&#10000;</button>
-        <button v-on:click="$emit('remove-posting', posting.id)">x</button>
+        <button @click="$emit('select-posting', posting)">&#10000;</button>
+        <button @click="$emit('remove-posting', posting.id)">x</button>
       </span>
     </li>
 </template>

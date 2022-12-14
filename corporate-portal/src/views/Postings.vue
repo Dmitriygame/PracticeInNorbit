@@ -3,8 +3,8 @@
     <h2>Проводки</h2>
     <hr>
     <EditPosting
-        v-bind:selectedPosting="this.selectedPosting"
-        v-bind:tasks="this.tasks"
+        :selectedPosting="this.selectedPosting"
+        :tasks="this.tasks"
 
         @edit-posting="editPosting"
     />
@@ -14,10 +14,10 @@
     />
     <hr>
     <PostingsList
-        v-bind:postings="postings"
-        v-bind:tasks="this.tasks"
-        v-bind:idSelectedItem="this.selectedPosting.id"
-        v-bind:filterDate="this.filterDate"
+        :postings="postings"
+        :tasks="this.tasks"
+        :idSelectedItem="this.selectedPosting.id"
+        :filterDate="this.filterDate"
 
         @remove-posting="removePosting"
         @select-posting="selectPosting"
@@ -29,12 +29,14 @@
 import PostingsList from "@/components/Postings/PostingsList";
 import EditPosting from "@/components/Postings/EditPosting";
 import FilterPostings from "@/components/Postings/FilterPostings";
+import {collection, deleteDoc, doc, getDocs, setDoc} from "firebase/firestore";
+import {db} from "@/main";
 
 export default {
   data() {
     return {
-      postings: JSON.parse(localStorage.getItem("postings")),
-      tasks: JSON.parse(localStorage.getItem("tasks")),
+      postings: [],
+      tasks: [],
       selectedPosting: {
         id: null,
         date: null,
@@ -45,21 +47,49 @@ export default {
       filterDate: "all"
     }
   },
+
   components: {
     PostingsList, EditPosting, FilterPostings
   },
 
-  beforeMount() {
+  async beforeMount() {
+    this.getPostings();
+    await this.getTasks();
     this.selectedPosting.id_key_task = this.firstTaskId();
   },
 
   methods: {
-    removePosting(id) {
-      this.postings = this.postings.filter(p => p.id != id);
-      localStorage.setItem("postings", JSON.stringify(this.postings));
+
+    async getPostings() {
+      this.postings = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "postings"));
+        querySnapshot.forEach((doc) => {
+          let posting = doc.data();
+          posting.id = doc.id;
+          this.postings.push(posting);
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
+      }
     },
 
-    editPosting(changedPosting) {
+    async removePosting(id) {
+      this.postings = this.postings.filter(p => p.id != id);
+      try {
+        await deleteDoc(doc(db, "postings", id));
+      }
+      catch (e) {
+        alert(`Возникла ошибка на стороне сервера!\n${e}`);
+      }
+    },
+
+    async editPosting(changedPosting) {
+
+      if (changedPosting.id == null) {
+        changedPosting.id = Date.now();
+      }
 
       if (changedPosting.name == "" || changedPosting.name == null) {
         changedPosting.name = "Пустая проводка";
@@ -94,33 +124,19 @@ export default {
         changedPosting.hours = 24 - alreadyWorkedOut;
       }
 
-      //add
-      if(changedPosting.id == null) {
-        const newPosting = {
-          id: Date.now(),
-          date: changedPosting.date,
-          hours: changedPosting.hours,
+      try {
+        await setDoc(doc(db, "postings", String(changedPosting.id) ), {
           id_key_task: changedPosting.id_key_task,
           name: changedPosting.name,
-        }
-
-        this.postings.push(newPosting);
+          date: changedPosting.date,
+          hours: changedPosting.hours
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка на стороне сервера!\n${e}`);
       }
 
-      //edit
-      else {
-        for (let currentPosting of this.postings) {
-          if (changedPosting.id == currentPosting.id) {
-
-            currentPosting.name = changedPosting.name;
-            currentPosting.date = changedPosting.date;
-            currentPosting.hours = changedPosting.hours;
-            currentPosting.id_key_task = changedPosting.id_key_task;
-
-            break;
-          }
-        }
-      }
+      this.getPostings();
 
       this.selectedPosting.id = null;
       this.selectedPosting.date = null
@@ -128,7 +144,21 @@ export default {
       this.selectedPosting.id_key_task = this.firstTaskId();
       this.selectedPosting.name = null;
 
-      localStorage.setItem("postings", JSON.stringify(this.postings));
+    },
+
+    async getTasks() {
+      this.tasks = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "tasks"));
+        querySnapshot.forEach((doc) => {
+          let task = doc.data();
+          task.id = doc.id;
+          this.tasks.push(task);
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
+      }
     },
 
     setFilter(filterDate) {

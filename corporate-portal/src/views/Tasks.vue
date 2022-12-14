@@ -23,11 +23,13 @@
 <script>
 import TasksList from "@/components/Tasks/TasksList"
 import EditTask from "@/components/Tasks/EditTask"
+import {collection, deleteDoc, doc, getDocs, setDoc} from "firebase/firestore";
+import {db} from "@/main";
 export default {
   data() {
     return {
-      tasks: JSON.parse(localStorage.getItem("tasks")),
-      projects: JSON.parse(localStorage.getItem("projects")),
+      tasks: [],
+      projects: [],
       selectedTask: {
         id: null,
         key_project: null,
@@ -39,46 +41,81 @@ export default {
   components: {
     TasksList, EditTask
   },
+
+  beforeMount() {
+    this.getTasks();
+    this.getProjects();
+  },
+
   methods: {
-    removeTask(id) {
-      this.tasks = this.tasks.filter(p => p.id != id);
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+
+    async getTasks() {
+      this.tasks = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "tasks"));
+        querySnapshot.forEach((doc) => {
+          let task = doc.data();
+          task.id = doc.id;
+          this.tasks.push(task);
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
+      }
     },
-    editTask(changedTask) {
-      //add
-      if(changedTask.id == null) {
-        const newTask = {
-          id: Date.now(),
+
+    async removeTask(id) {
+      this.tasks = this.tasks.filter(p => p.id != id);
+      try {
+        await deleteDoc(doc(db, "tasks", id));
+      }
+      catch (e) {
+        alert(`Возникла ошибка на стороне сервера!\n${e}`);
+      }
+    },
+
+    async editTask(changedTask) {
+
+      if (changedTask.name == "" || changedTask.name == null) {
+        changedTask.name = "Пустая задача";
+      }
+
+      if (changedTask.id == null) {
+        changedTask.id = Date.now();
+      }
+
+      try {
+        await setDoc(doc(db, "tasks", String(changedTask.id) ), {
           key_project: changedTask.key_project,
           name: changedTask.name,
           active: changedTask.active
-        };
-        if (newTask.name == "" || newTask.name == null) {
-          newTask.name = "Новая задача";
-        }
-        this.tasks.push(newTask);
+        });
       }
-      //edit
-      else {
-        for (let currentTask of this.tasks) {
-          if (changedTask.id == currentTask.id) {
-            currentTask.key_project = changedTask.key_project;
-            if (changedTask.name == "" || changedTask.name == null) {
-              currentTask.name = "Пустая задача";
-            }
-            else {
-              currentTask.name = changedTask.name;
-            }
-            currentTask.active = changedTask.active;
-            break;
-          }
-        }
+      catch (e) {
+        alert(`Возникла ошибка на стооне сервера!\n${e}`);
       }
+
+      this.getTasks();
+
       this.selectedTask.id = null;
-      this.selectedTask.key_project = null;
+      this.selectedTask.key_project = "";
       this.selectedTask.name = null;
 
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
+
+    async getProjects() {
+      this.projects = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "projects"));
+        querySnapshot.forEach((doc) => {
+          let project = doc.data();
+          project.id = doc.id;
+          this.projects.push(project);
+        });
+      }
+      catch (e) {
+        alert(`Возникла ошибка!\n${e}`);
+      }
     },
 
     selectTask(task) {
