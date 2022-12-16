@@ -11,7 +11,7 @@
       </span>
       <span class="buttons">
         <button v-on:click="$emit('select-project', project)">&#10000;</button>
-        <button v-on:click="$emit('remove-project', project.id)">x</button>
+        <button v-on:click="$emit('remove-project', project.id)">&#10006;</button>
       </span>
     </li>
 </template>

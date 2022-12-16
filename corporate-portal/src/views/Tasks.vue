@@ -9,7 +9,9 @@
         @edit-task="editTask"
     />
     <hr>
-    <TasksList
+    <h4 v-if="this.loading">Получение данных с сервера...</h4>
+    <h4 v-else-if="this.tasks.length === 0">Список задач пуст</h4>
+    <TasksList v-else
         :tasks="tasks"
         :projects="projects"
         :idSelectedItem="this.selectedTask.id"
@@ -30,6 +32,7 @@ export default {
     return {
       tasks: [],
       projects: [],
+      loading: true,
       selectedTask: {
         id: null,
         key_project: null,
@@ -50,6 +53,7 @@ export default {
   methods: {
 
     async getTasks() {
+      this.loading = true;
       this.tasks = [];
       try {
         const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -62,6 +66,7 @@ export default {
       catch (e) {
         alert(`Возникла ошибка!\n${e}`);
       }
+      this.loading = false;
     },
 
     async removeTask(id) {
@@ -76,12 +81,12 @@ export default {
 
     async editTask(changedTask) {
 
-      if (changedTask.name == "" || changedTask.name == null) {
-        changedTask.name = "Пустая задача";
-      }
-
       if (changedTask.id == null) {
         changedTask.id = Date.now();
+      }
+
+      if (changedTask.name == "" || changedTask.name == null) {
+        changedTask.name = "Пустая задача";
       }
 
       try {
@@ -104,6 +109,7 @@ export default {
     },
 
     async getProjects() {
+      this.loading = true;
       this.projects = [];
       try {
         const querySnapshot = await getDocs(collection(db, "projects"));
@@ -116,6 +122,7 @@ export default {
       catch (e) {
         alert(`Возникла ошибка!\n${e}`);
       }
+      this.loading = false;
     },
 
     selectTask(task) {

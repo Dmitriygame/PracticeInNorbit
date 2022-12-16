@@ -14,5 +14,10 @@ export default {
     }
   }
 }
-
 </script>
+
+<style scoped>
+input {
+  margin-left: 1rem;
+}
+</style>

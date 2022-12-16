@@ -1,6 +1,7 @@
 <template>
   <div>
-    <ul>
+    <h4 v-if="this.postingFiltered.length === 0">Список проводок пуст</h4>
+    <ul v-else>
       <PostingItem
           v-for="posting of this.postingFiltered"
           :posting="posting"

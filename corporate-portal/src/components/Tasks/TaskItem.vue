@@ -11,7 +11,7 @@
       </span>
       <span class="buttons">
         <button @click="$emit('select-task', task)">&#10000;</button>
-        <button @click="$emit('remove-task', task.id)">x</button>
+        <button @click="$emit('remove-task', task.id)">&#10006;</button>
       </span>
     </li>
 </template>

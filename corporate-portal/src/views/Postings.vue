@@ -13,7 +13,8 @@
         @set-filter="setFilter"
     />
     <hr>
-    <PostingsList
+    <h4 v-if="this.loading">Получение данных с сервера...</h4>
+    <PostingsList v-else
         :postings="postings"
         :tasks="this.tasks"
         :idSelectedItem="this.selectedPosting.id"
@@ -37,6 +38,7 @@ export default {
     return {
       postings: [],
       tasks: [],
+      loading: true,
       selectedPosting: {
         id: null,
         date: null,
@@ -61,6 +63,7 @@ export default {
   methods: {
 
     async getPostings() {
+      this.loading = true;
       this.postings = [];
       try {
         const querySnapshot = await getDocs(collection(db, "postings"));
@@ -73,6 +76,7 @@ export default {
       catch (e) {
         alert(`Возникла ошибка!\n${e}`);
       }
+      this.loading = false;
     },
 
     async removePosting(id) {
@@ -147,6 +151,7 @@ export default {
     },
 
     async getTasks() {
+      this.loading = true;
       this.tasks = [];
       try {
         const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -159,6 +164,7 @@ export default {
       catch (e) {
         alert(`Возникла ошибка!\n${e}`);
       }
+      this.loading = false;
     },
 
     setFilter(filterDate) {

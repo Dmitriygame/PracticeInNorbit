@@ -7,11 +7,11 @@
         {{posting.date}}
         <b id="posting_hours">{{posting.hours}}</b>
         <strong><router-link id="link" to="/tasks">{{this.taskName}}</router-link></strong>
-        {{posting.name}}
+        <span :title="this.posting.name">{{posting.name}}</span>
       </span>
       <span class="buttons">
         <button @click="$emit('select-posting', posting)">&#10000;</button>
-        <button @click="$emit('remove-posting', posting.id)">x</button>
+        <button @click="$emit('remove-posting', posting.id)">&#10006;</button>
       </span>
     </li>
 </template>

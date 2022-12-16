@@ -8,7 +8,9 @@
         @edit-project="editProject"
     />
     <hr>
-    <ProjectsList
+    <h4 v-if="this.loading">Получение данных с сервера...</h4>
+    <h4 v-else-if="this.projects.length === 0">Список проектов пуст</h4>
+    <ProjectsList v-else
         :projects="projects"
         :idSelectedItem="this.selectedProject.id"
 
@@ -29,7 +31,7 @@ export default {
   data() {
     return {
       projects: [],
-
+      loading: true,
       selectedProject: {
         id: null,
         key: "",
@@ -48,6 +50,7 @@ export default {
 
   methods: {
     async getProjects() {
+      this.loading = true;
       this.projects = [];
       try {
         const querySnapshot = await getDocs(collection(db, "projects"));
@@ -60,6 +63,7 @@ export default {
       catch (e) {
         alert(`Возникла ошибка!\n${e}`);
       }
+      this.loading = false;
     },
 
     async removeProject(id) {
@@ -93,12 +97,11 @@ export default {
         alert(`Возникла ошибка!\n${e}`);
       }
 
-      this.getProjects();
-
       this.selectedProject.id = null;
       this.selectedProject.key = "";
       this.selectedProject.name = null;
 
+      this.getProjects();
     },
 
     selectProject(project) {
