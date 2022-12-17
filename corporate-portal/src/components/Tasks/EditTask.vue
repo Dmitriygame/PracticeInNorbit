@@ -2,7 +2,7 @@
   <label class="checkbox style-g">
     <input type="checkbox" v-model="this.selectedTask.active">
     <div class="checkbox__checkmark"></div>
-    <div class="checkbox__body">Активный: </div>
+    <div class="checkbox__body">Активная: </div>
   </label>
   <select id="inputKey" v-model="this.selectedTask.key_project">
     <option v-for="project of this.projects" v-bind:value="project.id">{{project.name}}</option>
@@ -38,7 +38,7 @@ export default {
 <style scoped>
 
 #inputKey {
-  width: 100px;
+  width: 150px;
   margin-left: 2rem;
 }
 

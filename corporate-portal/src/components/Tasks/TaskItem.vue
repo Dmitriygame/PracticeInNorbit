@@ -4,10 +4,10 @@
         <label class="checkbox style-g">
           <input type="checkbox" v-bind:checked="task.active" disabled>
           <div class="checkbox__checkmark"></div>
-          <div class="checkbox__body">Активный: </div>
+          <div class="checkbox__body">Активная: </div>
         </label>
-        <strong><router-link id="link" to="/projects">{{this.projectName}}</router-link></strong>
-        {{task.name}}
+        <strong><router-link class="link" to="/projects">{{this.projectName}}</router-link></strong>
+        <span :title="this.task.name">{{task.name}}</span>
       </span>
       <span class="buttons">
         <button @click="$emit('select-task', task)">&#10000;</button>
@@ -47,8 +47,11 @@ li {
   position: relative; /* Относительное позиционирование */
 }
 
-#link {
-  color: darkorchid;
+.link {
+  margin-left: 2rem;
+  margin-right: 1rem;
+  color: #5470E3;
+  text-decoration: none;
 }
 
 .buttons {
@@ -57,15 +60,12 @@ li {
 }
 
 .selected {
+  color: black;
   background-color: aqua;
 }
 
 input {
   margin-right: 1rem;
-}
-
-#link {
-  margin-left: 2rem;
 }
 
 button {

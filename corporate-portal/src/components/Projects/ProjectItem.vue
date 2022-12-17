@@ -7,7 +7,7 @@
           <div class="checkbox__body">Активный: </div>
         </label>
         <strong>{{project.key}}</strong>
-        {{project.name}}
+        <span id="projectName" :title="this.project.name">{{project.name}}</span>
       </span>
       <span class="buttons">
         <button v-on:click="$emit('select-project', project)">&#10000;</button>
@@ -32,6 +32,7 @@ li {
 }
 
 .selected {
+  color: black;
   background-color: aqua;
 }
 
@@ -39,6 +40,10 @@ li {
   white-space: nowrap;
   overflow: hidden;
   position: relative;
+}
+
+#projectName {
+  margin-left: 1rem;
 }
 
 input {

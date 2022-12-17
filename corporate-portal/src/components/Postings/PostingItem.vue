@@ -3,16 +3,14 @@
                         not_enough_time: this.posting.hours < 8,
                         normal_time: this.posting.hours == 8,
                         excess_time: this.posting.hours > 8}">
-      <span class="size">
-        {{posting.date}}
-        <b id="posting_hours">{{posting.hours}}</b>
-        <strong><router-link id="link" to="/tasks">{{this.taskName}}</router-link></strong>
-        <span :title="this.posting.name">{{posting.name}}</span>
-      </span>
-      <span class="buttons">
+      <div id="postingDate">{{posting.date}}</div>
+      <div id="postingHours">{{posting.hours}}ч.</div>
+      <div id="taskName" :title="this.taskName" ><router-link id="taskName2" to="/tasks">{{this.taskName}}</router-link></div>
+      <div id="postingName" :title="this.posting.name">{{posting.name}}</div>
+      <div class="buttons">
         <button @click="$emit('select-posting', posting)">&#10000;</button>
         <button @click="$emit('remove-posting', posting.id)">&#10006;</button>
-      </span>
+      </div>
     </li>
 </template>
 
@@ -35,50 +33,67 @@ export default {
 
 <style scoped>
 li {
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  padding: .5rem 2rem;
-  margin-bottom: 1rem;
+  color: black;
+  float: left;
+  height: 250px;
+  width: 250px;
+  border: 1px solid black;
+  padding: 1rem;
+  margin: 0.5rem;
 }
 
 .not_enough_time {
-  color: black;
-  background-color: yellow;
+  background-color: #E3BD54;
 }
 
 .normal_time {
-  color: black;
-  background-color: green;
+  background-color: #53FA73;
 }
 
 .excess_time {
-  background-color: darkred;
+  background-color: #FA698B;
 }
 
 .selected {
   background-color: aqua;
 }
 
-#posting_hours {
-  margin-left: 1rem;
+#postingDate {
+  float: left;
 }
 
-button {
-  margin-right: 3px;
-  height: 25px;
-  width: 30px;
+#postingHours {
+  text-align: right;
+  font-size: 16pt;
+  height: 30px;
+}
+
+#taskName {
+  list-style: none;
+  text-align: left;
+  font-size: 14pt;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#taskName2 {
+  text-decoration: none;
+}
+
+#postingName {
+  height: 165px;
+  margin-top: 10px;
+  text-align: left;
+  font-size: 14pt;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .buttons {
-  white-space: nowrap;
-  margin-left: 3px;
+  margin-top: 8px;
 }
 
-.size {
-  white-space: nowrap; /* Отменяем перенос текста */
-  overflow: hidden; /* Обрезаем содержимое */
-  position: relative; /* Относительное позиционирование */
-}
 
 </style>

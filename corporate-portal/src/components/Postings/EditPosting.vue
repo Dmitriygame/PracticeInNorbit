@@ -54,6 +54,10 @@ input {
   margin: 5px;
 }
 
+#inputKey {
+  width: 150px;
+}
+
 #inputName {
   width: 300px;
 }

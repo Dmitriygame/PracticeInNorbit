@@ -46,13 +46,7 @@ body {
 }
 
 .home {
-  background-color: green;
-}
-
-#link {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  text-decoration: none;
+  background-color: #5470E3;
 }
 
 .checkbox.style-g {
